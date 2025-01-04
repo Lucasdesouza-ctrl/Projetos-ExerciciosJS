@@ -1,6 +1,8 @@
 const inputNewTask = document.querySelector(".newTask");
 const btnAddTask = document.querySelector(".btnAddTask");
 const TaskList = document.querySelector(".task");
+const completedTaskList = document.querySelector(".completed_task");
+addSaveTask();
 
 btnAddTask.addEventListener("click", function (event) {
   if (!inputNewTask.value) return;
@@ -19,6 +21,7 @@ document.addEventListener("click", function (event) {
     saveTask();
   }
 });
+
 function createLi() {
   const li = document.createElement("li");
   return li;
@@ -30,6 +33,8 @@ function createTask(InputText) {
   clearInput();
   createDeleteBtn(li);
   saveTask();
+  createCompletedBtn(li);
+  completedTask();
 }
 
 function clearInput() {
@@ -49,18 +54,38 @@ function saveTask() {
   for (let task of liTask) {
     let taskText = task.innerText;
     taskText = taskText.replace("Apagar", "");
+    taskText = taskText.replace("Concluir", "");
     TaskTextList.push(taskText);
   }
   const taskJSON = JSON.stringify(TaskTextList);
   console.log(taskJSON);
   localStorage.setItem("tasks", taskJSON);
 }
-function addSaveTask (){
-    const task = localStorage.getItem('tasks');
-    const taskList = JSON.parse(task);
+function addSaveTask() {
+  const task = localStorage.getItem("tasks");
+  const taskList = JSON.parse(task);
 
-  for (let task of taskList){
+  for (let task of taskList) {
     createTask(task);
   }
 }
-addSaveTask()
+function createCompletedBtn(li) {
+  const completedBtn = document.createElement("button");
+  completedBtn.innerHTML = "Concluir";
+  li.appendChild(completedBtn);
+  completedBtn.setAttribute("class", "completed");
+}
+function completedTask() {
+  document.addEventListener("click", function (event) {
+    const el = event.target;
+    const father = el.parentElement;
+    const child = document.createElement("p");
+    child.innerHTML = "Bom trabalho !";
+    if (el.classList.contains("completed")) {
+      father.classList.add("completedTask");
+      el.remove();
+      father.appendChild(child);
+      child.classList.add('greatWork');
+    }
+  });
+}
