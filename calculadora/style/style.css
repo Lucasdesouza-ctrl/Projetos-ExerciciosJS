@@ -49,7 +49,6 @@ button {
 button:hover {
   background-color: #f9fafb;
 }
-
 .calculator {
   width: 400px;
   display: flex;
