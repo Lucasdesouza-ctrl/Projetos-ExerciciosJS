@@ -1,4 +1,4 @@
-function createCalculator() {
+
   return {
     display: document.querySelector(".display"),
     init() {
